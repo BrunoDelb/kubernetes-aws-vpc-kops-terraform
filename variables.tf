@@ -1,5 +1,5 @@
 variable "name" {
-  default = "example.com"
+  default = "devopstestlab.com"
 }
 
 variable "region" {
