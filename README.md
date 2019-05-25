@@ -9,10 +9,13 @@ post.
 
 ```bash
 terraform init
-# Enter "yes"
 
 terraform apply -var name=devopstestlab.com
+```
 
+Enter "yes".
+
+```console
 export NAME=$(terraform output cluster_name)
 export KOPS_STATE_STORE=$(terraform output state_store)
 export ZONES=$(terraform output -json availability_zones | jq -r '.value|join(",")')
@@ -28,12 +31,13 @@ kops create cluster \
     --out=. \
     ${NAME}
 
-terraform output -json | docker run --rm -i ryane/gensubnets:0.1 | pbcopy
+terraform output -json | docker run --rm -i agilelabtest/export-aws-subnets | pbcopy
 
 kops edit cluster ${NAME}
 
 # replace *subnets* section with your paste buffer (be careful to indent properly)
 # save and quit editor
+# Copy the ID of the VPC
 
 kops update cluster \
   --out=. \
